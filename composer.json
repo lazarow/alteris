@@ -4,6 +4,7 @@
         "zendframework/zendframework": "~2.5"
     },
 	"require-dev": {
-		"vgarvardt/zf-simple-migrations": "dev-master"
+		"vgarvardt/zf-simple-migrations": "dev-master",
+		"zendframework/zftool": "dev-master"
 	}
 }
