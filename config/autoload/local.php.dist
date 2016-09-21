@@ -4,5 +4,17 @@ return [
 		'dsn'      => 'mysql:dbname=;host=localhost',        
         'username' => '',
         'password' => '',
+	],
+	'doctrine' => [
+		'connection' => [
+			'orm_default' => [
+				'params' => [
+					'host'     => 'localhost',
+					'dbname'   => '',
+					'user'     => '',
+					'password' => ''
+				]
+			]
+		]
 	]
 ];

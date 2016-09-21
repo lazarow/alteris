@@ -17,12 +17,16 @@ return [
 					'default' => [
 						'type'    => 'Segment',
                         'options' => [
-							'route'    => '/[:controller[/:action]]',
+							'route'    => '[:controller[/:action[/:id]]]',
                             'constraints' => [
 								'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[0-9]+',
 							],
-                            'defaults' => [ '__NAMESPACE__' => 'Task\Controller']
+                            'defaults' => [
+								'__NAMESPACE__' => 'Task\Controller',
+								'action'        => 'index'
+							]
 						]
 					]
 				]
@@ -31,16 +35,26 @@ return [
 	],
 	'controllers' => [
 		'invokables' => [
-			'Task\Controller\Index' => Controller\IndexController::class
+			'Task\Controller\Index' => Controller\IndexController::class,
+			'Task\Controller\Unit' => Controller\UnitController::class
 		]
 	],
+	'doctrine' => [
+		'driver' => [
+			'TaskDriver' => [
+				'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+				'cache' => 'array',
+				'paths' => [__DIR__ . '/../src/Task/Entity']
+			],
+			'orm_default' => [
+				'drivers' => ['Task\Entity' => 'TaskDriver']
+			]
+		]
+	],    
 	'view_manager' => [
-		'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
+        'doctype'      => 'HTML5',
         'template_map' => [
-			'layout/layout'    => __DIR__ . '/../view/layout/layout.phtml',
-            'task/index/index' => __DIR__ . '/../view/task/index/index.phtml'
+			'layout/layout' => __DIR__ . '/../view/layout/layout.phtml'
 		],
         'template_path_stack' => [__DIR__ . '/../view']
 	]
