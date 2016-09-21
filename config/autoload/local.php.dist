@@ -1,3 +1,8 @@
 <?php
-return array(
-);
+return [
+	'db' => [
+		'dsn' => 'mysql:dbname=;host=localhost',        
+        'username' => '',
+        'password' => '',
+	]
+];
