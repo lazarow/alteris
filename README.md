@@ -14,7 +14,13 @@ Wymagania to:
 Migrację uruchamiamy za pomocą:
 > zf2 migration apply
 
-.\vendor\bin\doctrine-module.bat orm:convert-mapping --namespace="Task\Entity\\" --force  --from-database annotation ./module/Task/src/
-.\vendor\bin\doctrine-module.bat orm:generate-entities ./module/Task/src/ --generate-annotations=true
+### Doctrine
 
+Tworzenie mapy encji:
+> .\vendor\bin\doctrine-module.bat orm:convert-mapping --namespace="Task\Entity\\" --force  --from-database annotation ./module/Task/src/
+
+Uzupełnienie o metody:
+> .\vendor\bin\doctrine-module.bat orm:generate-entities ./module/Task/src/ --generate-annotations=true
+
+Komendy dla Linux-a będą nieco inne (różnice w pisowni ścieżek).
 

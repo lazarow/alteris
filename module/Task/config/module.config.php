@@ -21,7 +21,7 @@ return [
                             'constraints' => [
 								'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[0-9]+',
+                                'id'         => '[0-9]+',
 							],
                             'defaults' => [
 								'__NAMESPACE__' => 'Task\Controller',
@@ -52,9 +52,13 @@ return [
 		]
 	],    
 	'view_manager' => [
-        'doctype'      => 'HTML5',
+        'doctype'            => 'HTML5',
+		'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
         'template_map' => [
-			'layout/layout' => __DIR__ . '/../view/layout/layout.phtml'
+			'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
+			'error/404'     => __DIR__ . '/../view/error/404.phtml',
+            'error/index'   => __DIR__ . '/../view/error/index.phtml'
 		],
         'template_path_stack' => [__DIR__ . '/../view']
 	]

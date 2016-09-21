@@ -1,0 +1,8 @@
+<?php
+$form->setAttribute('action', $this->url('task/default', ['controller' => 'unit', 'action' => 'add']));
+$form->prepare();
+echo $this->form()->openTag($form);
+echo $this->formRow($form->get('name'));
+echo $this->formRow($form->get('abbreviation'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();

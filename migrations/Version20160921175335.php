@@ -19,7 +19,7 @@ class Version20160921175335 extends AbstractMigration
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8;');
 		$this->addSql('ALTER TABLE material_group ADD CONSTRAINT fk_material_group_idParent FOREIGN KEY (idParent) '
-			. 'REFERENCES material_group(id)');
+			. 'REFERENCES material_group(id) ON DELETE CASCADE');
 		$this->addSql('CREATE TABLE `unit` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '
 			. '`name` VARCHAR(64) NOT NULL , `abbreviation` VARCHAR(16) NOT NULL , '
 			. '`createdAt` TIMESTAMP NOT NULL , `modifiedAt` TIMESTAMP NOT NULL , '
@@ -29,9 +29,9 @@ class Version20160921175335 extends AbstractMigration
 			. '`name` VARCHAR(64) NOT NULL , `createdAt` TIMESTAMP NOT NULL , `modifiedAt` TIMESTAMP NOT NULL , '
 			. 'PRIMARY KEY (`id`), UNIQUE (`code`), UNIQUE (`name`)) ENGINE = InnoDB;');
 		$this->addSql('ALTER TABLE material ADD CONSTRAINT fk_material_idGroup FOREIGN KEY (idGroup) '
-			. 'REFERENCES material_group(id)');
+			. 'REFERENCES material_group(id) ON DELETE CASCADE');
 		$this->addSql('ALTER TABLE material ADD CONSTRAINT fk_material_idUnit FOREIGN KEY (idunit) '
-			. 'REFERENCES unit(id)');
+			. 'REFERENCES unit(id) ON DELETE CASCADE');
     }
 
     public function down(MetadataInterface $schema)
