@@ -1,0 +1,4 @@
+Alteris
+=======================
+
+Test kompetencji.
