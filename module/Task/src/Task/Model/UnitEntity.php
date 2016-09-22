@@ -1,42 +1,37 @@
 <?php
 namespace Task\Model;
 
+use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Task\Entity\Unit;
 
+/**
+ * @ORM\Table(name="unit")
+ * @ORM\Entity
+ */
 class UnitEntity extends Unit implements InputFilterAwareInterface
 {
 	use EntityTrait, DoctrineTrait;
 	
 	/**
+	 * @var \Doctrine\ORM\EntityRepository 
+	 */
+	protected static $repository = null;
+	/**
 	 * @var Zend\InputFilter\InputFilter 
 	 */
 	protected $inputFilter = null;
-	/**
-	 * @var \Doctrine\ORM\EntityRepository 
-	 */
-	protected $repository = null;
-	
-	/**
-	 * @return \Doctrine\ORM\EntityRepository
-	 */
-	public function getRepository()
-	{
-		if (is_null($this->repository)) {
-			$this->repository = $this->getEntityManager()->getRepository('Task\Entity\Unit');
-		}
-		return $this->repository;
-	}
 	
 	public function exchangeArray($data)
 	{
 		$this->setName(array_key_exists('name', $data) ? $data['name'] : null);
 		$this->setAbbreviation(array_key_exists('abbreviation', $data) ? $data['abbreviation'] : null);
+		$now = new \DateTime('now');
 		if ($this->getId() === null) {
-			$this->setCreatedat(time());
+			$this->setCreatedat($now);
 		}
-		$this->setModifiedat(time());
+		$this->setModifiedat($now);
 	}
 	
 	public function getDoctrineEntity()
@@ -86,5 +81,17 @@ class UnitEntity extends Unit implements InputFilterAwareInterface
 			$this->inputFilter = $inputFilter;
 		}
 		return $this->inputFilter;
+	}
+	
+	/**
+	 * @return \Doctrine\ORM\EntityRepository
+	 */
+	public static function getRepository($context)
+	{
+		if (is_null(self::$repository)) {
+			$entityManager = self::getDoctrineEntityManager($context->getServiceLocator());
+			self::$repository = $entityManager->getRepository('Task\Model\UnitEntity');
+		}
+		return self::$repository;
 	}
 }

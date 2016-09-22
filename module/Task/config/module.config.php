@@ -36,30 +36,56 @@ return [
 	'controllers' => [
 		'invokables' => [
 			'Task\Controller\Index' => Controller\IndexController::class,
-			'Task\Controller\Unit' => Controller\UnitController::class
+			'Task\Controller\Unit' => Controller\UnitController::class,
+			'Task\Controller\Console' => Controller\ConsoleController::class
 		]
 	],
 	'doctrine' => [
 		'driver' => [
-			'TaskDriver' => [
+			'TaskEntityDriver' => [
 				'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
 				'cache' => 'array',
 				'paths' => [__DIR__ . '/../src/Task/Entity']
 			],
+			'TaskModelEntityDriver' => [
+				'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+				'cache' => 'array',
+				'paths' => [__DIR__ . '/../src/Task/Model']
+			],
 			'orm_default' => [
-				'drivers' => ['Task\Entity' => 'TaskDriver']
+				'drivers' => [
+					'Task\Entity' => 'TaskEntityDriver',
+					'Task\Model' => 'TaskModelEntityDriver',
+				]
 			]
 		]
 	],    
 	'view_manager' => [
-        'doctype'            => 'HTML5',
-		'not_found_template' => 'error/404',
-        'exception_template' => 'error/index',
-        'template_map' => [
+		'display_not_found_reason' => true,
+		'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+		'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+		'template_path_stack'      => [__DIR__ . '/../view'],
+        'template_map'             => [
 			'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
 			'error/404'     => __DIR__ . '/../view/error/404.phtml',
             'error/index'   => __DIR__ . '/../view/error/index.phtml'
-		],
-        'template_path_stack' => [__DIR__ . '/../view']
+		]
+	],
+	'console' => [
+		'router' => [
+			'routes' => [
+				'fix-entities' => [
+					'options' => [
+						'route'    => 'fix-entities',
+                        'defaults' => array(
+                            'controller' => 'Task\Controller\Console',
+                            'action'     => 'fix-entities'
+                        )
+					]
+				]
+			]
+		]
 	]
 ];

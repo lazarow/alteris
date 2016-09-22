@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Material
  *
  * @ORM\Table(name="material", uniqueConstraints={@ORM\UniqueConstraint(name="code", columns={"code"}), @ORM\UniqueConstraint(name="name", columns={"name"})}, indexes={@ORM\Index(name="fk_material_idGroup", columns={"idGroup"}), @ORM\Index(name="fk_material_idUnit", columns={"idUnit"})})
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  */
-class Material
+abstract class Material
 {
     /**
      * @var integer
@@ -40,14 +40,14 @@ class Material
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false)
      */
-    private $createdat;
+    private $createdat = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="modifiedAt", type="datetime", nullable=false)
      */
-    private $modifiedat;
+    private $modifiedat = '0000-00-00 00:00:00';
 
     /**
      * @var \Task\Entity\MaterialGroup

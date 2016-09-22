@@ -9,7 +9,8 @@ class UnitController extends AbstractActionController
 {
     public function indexAction()
     {
-		echo 'aaa';
+		//var_dump(UnitEntity::getRepository($this)->findAll());
+		var_dump(UnitEntity::getRepository($this)->findBy(['id' => 6]));
 		return 1;
     }
 	

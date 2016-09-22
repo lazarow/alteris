@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * Unit
  *
  * @ORM\Table(name="unit", uniqueConstraints={@ORM\UniqueConstraint(name="name", columns={"name"}), @ORM\UniqueConstraint(name="abbreviation", columns={"abbreviation"})})
- * @ORM\Entity
+ * @ORM\MappedSuperclass
  */
-class Unit
+abstract class Unit
 {
     /**
      * @var integer
@@ -40,14 +40,14 @@ class Unit
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false)
      */
-    private $createdat;
+    private $createdat = 'CURRENT_TIMESTAMP';
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="modifiedAt", type="datetime", nullable=false)
      */
-    private $modifiedat;
+    private $modifiedat = '0000-00-00 00:00:00';
 
 
 

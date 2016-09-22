@@ -21,7 +21,7 @@ trait DoctrineTrait
 			throw new \Exception('The service locator is not set');
 		}
         if (is_null($this->entityManager)) {
-            $this->entityManager = $this->serviceLocator->get('doctrine.entitymanager.orm_default');
+            $this->entityManager = self::getDoctrineEntityManager($this->serviceLocator);
         }
         return $this->entityManager;
     }
@@ -29,5 +29,14 @@ trait DoctrineTrait
 	public function setServiceLocator(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
 	{
 		$this->serviceLocator = $serviceLocator;
+	}
+	
+	/**
+	 * @param \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator
+	 * @return \Doctrine\ORM\EntityManager 
+	 */
+	protected static function getDoctrineEntityManager(\Zend\ServiceManager\ServiceLocatorInterface $serviceLocator)
+	{
+		return $serviceLocator->get('doctrine.entitymanager.orm_default');
 	}
 }
