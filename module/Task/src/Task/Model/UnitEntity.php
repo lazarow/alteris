@@ -34,19 +34,10 @@ class UnitEntity extends Unit implements InputFilterAwareInterface
 		$this->setModifiedat($now);
 	}
 	
-	public function getDoctrineEntity()
-	{
-		$entity = new Unit();
-		$entity->setName($this->getName())
-			->setAbbreviation($this->getAbbreviation())
-			->setCreatedat($this->getCreatedat())
-			->setModifiedat($this->getModifiedat());
-		return $entity;
-	}
-	
 	public function getInputFilter()
 	{
 		if (is_null($this->inputFilter)) {
+			$dbAdapter = $this->serviceLocator->get('Zend\Db\Adapter\Adapter');
 			$inputFilter = new InputFilter();
 			$inputFilter->add([
 				'name'     => 'name',
@@ -54,11 +45,35 @@ class UnitEntity extends Unit implements InputFilterAwareInterface
 				'filters'  => [['name' => 'StringTrim']],
 				'validators' => [
 					[
+						'name'    =>'NotEmpty', 
+                        'options' => [
+							'messages' => [
+								\Zend\Validator\NotEmpty::IS_EMPTY => 'Nazwa jednostki miary musi być uzupełniona.' 
+							]
+						]
+					],
+					[
 						'name'    => 'StringLength',
 						'options' => [
 							'encoding' => 'UTF-8',
-							'min'      => 1,
 							'max'      => 64,
+							'messages' => [
+								\Zend\Validator\StringLength::INVALID => 'Wpisana wartość jest nieprawidłowa.',
+								\Zend\Validator\StringLength::TOO_LONG => 
+									'Wpisana wartość jest za długa (maksymalnie 64 znaki).'
+							]
+						]
+					],
+					[
+						'name'    => '\Zend\Validator\Db\NoRecordExists',
+                        'options' => [
+							'table' => 'unit',
+                            'field' => 'name',
+                            'adapter' => $dbAdapter,
+                            'messages' => [
+								\Zend\Validator\Db\NoRecordExists::ERROR_RECORD_FOUND => 
+									'Jednostka miary o takiej nazwie już istnieje.'
+							]
 						]
 					]
 				]
@@ -69,11 +84,35 @@ class UnitEntity extends Unit implements InputFilterAwareInterface
 				'filters'  => [['name' => 'StringTrim']],
 				'validators' => [
 					[
+						'name'    =>'NotEmpty', 
+                        'options' => [
+							'messages' => [
+								\Zend\Validator\NotEmpty::IS_EMPTY => 'Skrócona nazwa jednostki musi być uzupełniona.' 
+							]
+						]
+					],
+					[
 						'name'    => 'StringLength',
 						'options' => [
 							'encoding' => 'UTF-8',
-							'min'      => 1,
 							'max'      => 16,
+							'messages' => [
+								\Zend\Validator\StringLength::INVALID => 'Wpisana wartość jest nieprawidłowa.',
+								\Zend\Validator\StringLength::TOO_LONG => 
+									'Wpisana wartość jest za długa (maksymalnie 64 znaki).'
+							]
+						]
+					],
+					[
+						'name'    => '\Zend\Validator\Db\NoRecordExists',
+                        'options' => [
+							'table' => 'unit',
+                            'field' => 'abbreviation',
+                            'adapter' => $dbAdapter,
+                            'messages' => [
+								\Zend\Validator\Db\NoRecordExists::ERROR_RECORD_FOUND => 
+									'Jednostka miary o takim skrócie już istnieje.'
+							]
 						]
 					]
 				]
